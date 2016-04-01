@@ -1,2 +1,2 @@
 # util.js
-javascript inner common-use utility
+inner common-use javascript utility, still collecting...
