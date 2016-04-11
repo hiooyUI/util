@@ -125,7 +125,7 @@ $.fn.list_data = function (options) {
                 }
             } else {
                 //滚动到底部 
-                if (scrollTop + windowHeight >= (scrollHeight - 200)) {
+                if (scrollTop + windowHeight >= (scrollHeight - 200)) {//到离底部200像素就开始加载
                     if (page_down < opt.page_count) {
                         page_down++;
                         loadmore(page_down, 'after');
