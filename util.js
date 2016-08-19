@@ -1,9 +1,9 @@
 /**
-   * 获取url传值
-   *
-   * @param {String} name
-   * @return {String} 
-   */
+ * 获取url传值
+ *
+ * @param {String} name
+ * @return {String} 
+ */
 function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
@@ -11,12 +11,12 @@ function getQueryString(name) {
 }
 
 /**
-   * 添加cookie
-   *
-   * @param {String} name
-   * @param {String} value
-   * @param {Number} expireHours
-   */
+ * 添加cookie
+ *
+ * @param {String} name
+ * @param {String} value
+ * @param {Number} expireHours
+ */
 function addcookie(name, value, expireHours) {
     var cookieString = name + "=" + escape(value) + "; path=/";
     // 判断是否设置过期时间
@@ -27,7 +27,13 @@ function addcookie(name, value, expireHours) {
     }
     document.cookie = cookieString;
 }
-//获取cookie
+
+/**
+ * 获取cookie
+ *
+ * @param {String} name
+ * @return {String} 
+ */
 function getcookie(name) {
     var strcookie = document.cookie;
     var arrcookie = strcookie.split("; ");
@@ -37,14 +43,25 @@ function getcookie(name) {
     }
     return "";
 }
-//删除cookie
+
+/**
+ * 删除cookie
+ *
+ * @param {String} name
+ */
 function delCookie(name) {
     var exp = new Date();
     exp.setTime(exp.getTime() - 1);
     var cval = getcookie(name);
     if (cval != null) document.cookie = name + "=" + cval + "; path=/;expires=" + exp.toGMTString();
 }
-//手机号码判断
+
+/**
+ * 手机号码判断
+ *
+ * @param {String} val
+ * @return {Boolean} 
+ */
 function isMobileNumber(val) {
     if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(val))) {
         return false;
@@ -52,15 +69,23 @@ function isMobileNumber(val) {
         return true;
     }
 }
-//返回上一层
+
+/**
+ * 返回上一层
+ */
 function goback() {
     window.history.go(-1);
     setTimeout(function () {
         window.location.href = "/";
-    }, 200);
+    }, 500);
 }
 
-/*判断是否为身份证*/
+/**
+ * 判断是否为身份证
+ *
+ * @param {String} num
+ * @return {Boolean} 
+ */
 function isIdCardNo(num) {
     var num = num.toUpperCase(),
     len = num.length,
@@ -112,7 +137,12 @@ function isIdCardNo(num) {
     }
 }
 
-/*判断是否为2~15字姓名*/
+/**
+ * 判断是否为2~15字姓名
+ *
+ * @param {String} name
+ * @return {Boolean} 
+ */
 function isChineseName(name) {
     reg = /^[\u4E00-\u9FA5]{2,15}$/;
     if (!reg.test(name)) {
@@ -121,27 +151,35 @@ function isChineseName(name) {
         return true;
     }
 }
-/*预加载图片*/
-function preLoadImages(urls) {//可以是String Array或者String
+
+/**
+ * 预加载图片
+ *
+ * @param {String|Array} urls
+ */
+function preLoadImages(urls) {// 可以是String Array或者String
     var argsLen = arguments.length,
         loadImage = function (url) {
             var img = new Image();
             img.src = url;
         };
     if (argsLen == 1) {
-        if (typeof (urls) == "string" && (sLen = urls.length) > 1) {//预加载一个图片
+        if (typeof (urls) == "string" && (sLen = urls.length) > 1) {// 预加载一个图片
             loadImage(urls);
         }
-        else if (Object.prototype.toString.call(arguments[0]) == "[object Array]" && urls.length > 0) {//预加载多个图片
+        else if (Object.prototype.toString.call(arguments[0]) == "[object Array]" && urls.length > 0) {// 预加载多个图片
             for (var i = 0; i < urls.length; i++) {
                 loadImage(urls[i]);
             }
         }
     }
 }
-//input输入框特殊字符过滤
+
+/**
+ * input输入框特殊字符过滤
+ */
 function filtInputValue(input) {
-    var pattern = new RegExp("[%--`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——| {}【】‘’\"；：”“'。，、？]");        //格式 RegExp("[在中间定义特殊过滤字符]")  
+    var pattern = new RegExp("[%--`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——| {}【】‘’\"；：”“'。，、？]");        // 格式 RegExp("[在中间定义特殊过滤字符]")  
     var s = input.value;
     var rs = "";
     for (var i = 0; i < s.length; i++) {
