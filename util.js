@@ -187,3 +187,23 @@ function filtInputValue(input) {
     }
     input.value = rs;
 }
+
+/**
+ * 对象拷贝
+ * @param {Object} target
+ * @param {Object} source
+ * @return {Object} 
+ */
+function extend(target, source) {
+    var length = arguments.length;
+    if (length == 1) {
+        source = arguments[0];
+        target = this;
+    }
+    for (var p in source) {
+        if (source.hasOwnProperty(p)) {
+            target[p] = source[p];
+        }
+    }
+    return target;
+}
