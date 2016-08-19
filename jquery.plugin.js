@@ -1,14 +1,15 @@
-// JavaScript Document
-/****
-desc : 分页异步获取列表数据，页面向上滚动时候加载前面页码，向下滚动时加载后面页码
-ajaxdata_url    ajax异步的URL 如data.php
-page_val_name   ajax异步的URL中的页码参数名 如pageno
-page_no         初始加载页码，默认1  [如2,则与前面两参数结合为data.php?pageno=2
-is_lazyload     是否开启懒加载
-page_count      总页数
-empty_msg       没有数据的时候提示（可传输图片）
-ending_msg      最大页码显示提示
-***/
+/**
+ * 分页异步获取列表数据，页面向上滚动时候加载前面页码，向下滚动时加载后面页码
+ *
+ * @param {Object} options
+ *        - {String} ajaxdata_url -- ajax异步的URL 如data.php
+ *        - {String} page_val_name -- ajax异步的URL中的页码参数名 如pageno
+ *        - {Number} page_no -- 初始加载页码，默认1  [如2,则与前面两参数结合为data.php?pageno=2
+ *        - {Boolean} is_lazyload -- 是否开启懒加载
+ *        - {Number} page_count --  总页数
+ *        - {String} empty_msg -- 没有数据的时候提示（可传输图片） 
+ *        - {String} ending_msg -- 最大页码显示提示
+ */
 $.fn.list_data = function (options) {
     //参数
     var This = $(this);
