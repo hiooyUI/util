@@ -82,7 +82,7 @@ function goback() {
 
 /**
  * 判断是否为身份证
- *
+ * 来源于网络
  * @param {String} num
  * @return {Boolean} 
  */
@@ -97,10 +97,10 @@ function isIdCardNo(num) {
         if (len == 15) {
             re = new RegExp(/^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/);
             splitArr = num.match(re);
-            //检查生日日期是否正确 如19850843 或者 20000843
+            // 检查生日日期是否正确 如19850843 或者 20000843
             var dtmBirth = new Date('19' + splitArr[2] + '/' + splitArr[3] + '/' + splitArr[4]);
             if (!((dtmBirth.getYear() == Number(splitArr[2])) && ((dtmBirth.getMonth() + 1) == Number(splitArr[3])) && (dtmBirth.getDate() == Number(splitArr[4])))) {
-                //alert('输入的身份证号里出生日期不对！');
+                // alert('输入的身份证号里出生日期不对！');
                 return false;
             }
             else {
@@ -112,11 +112,11 @@ function isIdCardNo(num) {
             var splitArr = num.match(re);
             var dtmBirth = new Date(splitArr[2] + "/" + splitArr[3] + "/" + splitArr[4]);
             if (!((dtmBirth.getFullYear() == Number(splitArr[2])) && ((dtmBirth.getMonth() + 1) == Number(splitArr[3])) && (dtmBirth.getDate() == Number(splitArr[4])))) {
-                //alert('输入的身份证号里出生日期不对！');
+                // alert('输入的身份证号里出生日期不对！');
                 return false;
             }
-            //检验18位身份证的校验码是否正确。
-            //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
+            // 检验18位身份证的校验码是否正确。
+            // 校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
             var checkNum;
             var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
             var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
@@ -126,7 +126,7 @@ function isIdCardNo(num) {
             }
             checkNum = arrCh[nTemp % 11];
             if (checkNum != num.substr(17, 1)) {
-                //alert('18位身份证的校验码不正确！应该为：' + checkNum);
+                // alert('18位身份证的校验码不正确！应该为：' + checkNum);
                 return false;
             }
             else {
