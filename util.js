@@ -1,13 +1,25 @@
-//获取url传值
+/**
+   * 获取url传值
+   *
+   * @param {String} name
+   * @return {String} 
+   */
 function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]); return null;
 }
-//添加cookie
+
+/**
+   * 添加cookie
+   *
+   * @param {String} name
+   * @param {String} value
+   * @param {Number} expireHours
+   */
 function addcookie(name, value, expireHours) {
     var cookieString = name + "=" + escape(value) + "; path=/";
-    //判断是否设置过期时间
+    // 判断是否设置过期时间
     if (expireHours > 0) {
         var date = new Date();
         date.setTime(date.getTime + expireHours * 3600 * 1000);
