@@ -83,6 +83,7 @@ function goback() {
 /**
  * 判断是否为身份证
  * 来源于网络
+ * 
  * @param {String} num
  * @return {Boolean} 
  */
@@ -190,6 +191,7 @@ function filtInputValue(input) {
 
 /**
  * 对象拷贝
+ * 
  * @param {Object} target
  * @param {Object} source
  * @return {Object} 
