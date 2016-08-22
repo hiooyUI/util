@@ -212,7 +212,7 @@ function extend(target, source) {
 
 /**
  * 回到顶部缓动效果
- * @author rid.k ,Edited by Nelson 20160822
+ * @author rid.k, optimised by Nelson 20160822
  * 
  * @param {Float|undefine} acceleration
  * @param {Number|undefine} time
