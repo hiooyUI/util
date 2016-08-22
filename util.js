@@ -211,41 +211,40 @@ function extend(target, source) {
 }
 
 /**
- * 回到頂部缓动效果
- * @author rid.k 
+ * 回到顶部缓动效果
+ * @author rid.k ,Edited by Nelson 20160822
  * 
  * @param {Float|undefine} acceleration
  * @param {Number|undefine} time
  */
 function goTop(acceleration, time) {
-    acceleration = acceleration || 0.1;
-    time = time || 16;
-    var x1 = 0;
+    acceleration = acceleration || -0.02;
+    time = time || 16; // 1秒内播放60帧以上(1000 / 60 = 16.6667)肉眼就不会觉得眩晕，感觉是平滑过度
     var y1 = 0;
-    var x2 = 0;
     var y2 = 0;
-    var x3 = 0;
     var y3 = 0;
     if (document.documentElement) {
-        x1 = document.documentElement.scrollLeft || 0;
         y1 = document.documentElement.scrollTop || 0;
     }
     if (document.body) {
-        x2 = document.body.scrollLeft || 0;
         y2 = document.body.scrollTop || 0;
     }
-    x3 = window.scrollX || 0;
     y3 = window.scrollY || 0;
-    // 滚动条到页面顶部的水平距离
-    var x = Math.max(x1, Math.max(x2, x3));
     // 滚动条到页面顶部的垂直距离
     var y = Math.max(y1, Math.max(y2, y3));
-    // 滚动距离 = 目前距离 / 速度, 因为距离原来越小, 速度是大于 1 的数, 所以滚动距离会越来越小
-    var speed = 1 + acceleration;
-    window.scrollTo(Math.floor(x / speed), Math.floor(y / speed));
+    // 在相同的时间，因为要距离原来越小,直到0为止，
+    // Δs = vt - at^2/2  下面将采用近似法
+    // v = at
+    // => s = at^2/2
+    // => t = Math.sqrt(-2*y/acceleration)
+    // => v = acceleration * Math.sqrt(-2*y/acceleration)
+    // => Δs = vt = acceleration * Math.sqrt(-2*y/acceleration) * time 采用近似法
+    var s = acceleration * Math.sqrt(-2 * y / acceleration) * time;
+    window.scrollTo(0, Math.floor(y + s));
     // 如果距离不为零, 继续调用迭代本函数
-    if (x > 0 || y > 0) {
+    if (y > 0) {
         var invokeFunction = "goTop(" + acceleration + ", " + time + ")";
         window.setTimeout(invokeFunction, time);
     }
 };
+
