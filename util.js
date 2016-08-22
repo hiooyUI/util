@@ -238,7 +238,7 @@ function goTop(acceleration, time) {
     // => s = at^2/2
     // => t = Math.sqrt(-2*y/acceleration)
     // => v = acceleration * Math.sqrt(-2*y/acceleration)
-    // => Δs = vt = acceleration * Math.sqrt(-2*y/acceleration) * time 采用近似法
+    // => Δs = vΔt = acceleration * Math.sqrt(-2*y/acceleration) * time 采用近似法
     var s = acceleration * Math.sqrt(-2 * y / acceleration) * time;
     window.scrollTo(0, Math.floor(y + s));
     // 如果距离不为零, 继续调用迭代本函数
