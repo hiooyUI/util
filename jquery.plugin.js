@@ -141,3 +141,102 @@ $.fn.list_data = function (options) {
     }
 
 }
+
+/**
+ * 页面上下拉换屏，海印优选微信商城商品详情页普遍使用
+ * 使用方式：
+ *   - var pts = new $.fn.pullSwitch2Pages();
+ *   - 或者直接 $.fn.pullSwitch2Pages();
+ *
+ * @param {Object} options
+ *        - {String} firstPage -- 首屏元素选择器
+ *        - {String} secondPage -- 次屏元素选择器
+ *        - {Function} onFirstPage -- 当切换到首屏时执行的回调函数
+ *        - {Function} onSecondPage -- 当切换到次屏时执行的回调函数
+ */
+$.fn.pullSwitch2Pages = function (options) {
+    var defaults = {
+        firstPage: '#page_1',
+        secondPage: '#page_2',
+        onFirstPage: function () { },
+        onSecondPage: function () { }
+    }
+    options = $.extend({}, defaults, options);
+    
+    var _self = this;
+    _self.currentPage = 1,
+    _self.isMoving = false,
+    _self.isTouching = false,
+    _self.startY = 0,
+    _self.currentY = 0;
+    document.addEventListener('touchstart', function (event) {
+        _self.isTouching = true;
+        _self.startY = event.changedTouches[0].pageY;
+    }, false);
+    document.addEventListener('touchmove', function (event) {
+        _self.currentY = event.changedTouches[0].pageY;
+        if (shallTrigger()) {
+            event.preventDefault();
+        }
+    }, false);
+    document.addEventListener('touchend', function (event) {
+        _self.currentY = event.changedTouches[0].pageY;
+        switchPage();
+        _self.isTouching = false;
+        _self.startY = 0;
+        _self.currentY = 0;
+    }, false);
+    function switchPage() {
+        var scrollTop = $(window).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(window).height();
+        if (scrollTop + windowHeight >= scrollHeight && !_self.isMoving && _self.currentY - _self.startY < -15) {
+            if (_self.currentPage == 1 && _self.isTouching) {
+                $(options.firstPage).fadeOut();
+                $(options.secondPage).fadeIn();
+                $("body,html").animate({ scrollTop: 0 }, 10);
+                options.onSecondPage();
+                _self.currentPage = 2;
+            }
+        } else if (scrollTop <= 0 && !_self.isMoving && _self.currentY - _self.startY > 15) {
+            if (_self.currentPage == 2 && _self.isTouching) {
+                _self.isMoving = true;
+                $(options.firstPage).fadeIn();
+                $(options.secondPage).fadeOut();
+                options.onFirstPage();
+                setTimeout(function () {
+                    _self.isMoving = false;
+                    _self.currentPage = 1;
+                }, 1000);
+            }
+        }
+    }
+    function shallTrigger() {
+        var scrollTop = $(window).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(window).height();
+        if ((scrollTop + windowHeight >= scrollHeight && _self.currentPage == 1 && _self.currentY - _self.startY < -5) || (scrollTop <= 0 && _self.currentPage == 2 && _self.currentY - _self.startY > 5)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * 可以暴露给外面使用的函数，用于返回到首屏
+     * 使用方式：
+     *   - var pts = new $.fn.pullSwitch2Pages();
+     *   - pts.back();
+     */
+    _self.back = function () { 
+        if (_self.currentPage == 2 && !_self.isMoving) {
+            _self.isMoving = true;
+            $(options.secondPage).fadeOut();
+            $(options.firstPage).slideDown("slow");
+            options.onFirstPage();
+            setTimeout(function () {
+                _self.isMoving = false;
+                _self.currentPage = 1;
+            }, 1000);
+        }
+    }
+}
