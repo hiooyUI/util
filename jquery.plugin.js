@@ -169,6 +169,8 @@ $.fn.pullSwitch2Pages = function (options) {
     _self.isTouching = false,
     _self.startY = 0,
     _self.currentY = 0;
+    options.onFirstPage();
+    
     document.addEventListener('touchstart', function (event) {
         _self.isTouching = true;
         _self.startY = event.changedTouches[0].pageY;
