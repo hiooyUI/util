@@ -178,6 +178,7 @@ function preLoadImages(urls) {// 可以是String Array或者String
 
 /**
  * input输入框特殊字符过滤
+ * @param {HTMLInputElement} input
  */
 function filtInputValue(input) {
     var pattern = new RegExp("[%--`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——| {}【】‘’\"；：”“'。，、？]");        // 格式 RegExp("[在中间定义特殊过滤字符]")  
