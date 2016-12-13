@@ -295,6 +295,7 @@ window.addEvent = (function (window, undefined) {
     }
     return function () { };
 })(window);
+
 /**
  * 判断字符串实际长度，每个中文字符长度为2
  *
