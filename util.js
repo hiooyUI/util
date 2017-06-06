@@ -305,3 +305,68 @@ window.addEvent = (function (window, undefined) {
 function strLength(str) {
     return str.replace(/[^\x00-\xff]/g,"aa").length;
 }
+
+/**
+ * 添加javascript文件
+ *
+ * @param {String} src
+ * @return {[object HTMLScriptElement]}
+ */
+function appendScript(src) {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = src;
+  script.async = false;
+  document.body.appendChild(script);
+  return script;
+}
+
+/**
+ * 异步加载单个javascript文件
+ *
+ * @param {String} src
+ * @param {Function} callback
+ * 
+ */
+function loadScript(src, callback) {
+    if (!src || typeof src !== 'string' || !src.length) return;
+    var script = appendScript(src);
+    script.onload = function () {
+      script.onload = null;
+      callback && callback();
+    };
+    script.onreadystatechange = function () {
+      var state = script.readyState;
+      if (state === 'loaded' || state === 'complete') {
+        script.onreadystatechange = null;
+        callback && callback();
+      }
+    }
+}
+
+/**
+ * 异步加载多个javascript文件
+ *
+ * @param {Array} srcs
+ * 
+ */
+function loadScripts(srcs) {
+    if (srcs.length === 0) return;
+    for (var i = 0; i < srcs.length; i++) {
+      this.loadScript(srcs[i]);
+    }
+}
+
+/**
+ * 同步加载多个javascript文件
+ *
+ * @param {Array} srcs
+ * 
+ */
+function syncLoadScripts(srcs) {
+    if (srcs.length === 0) return;
+    var next = function () {
+      self.loadScript(srcs.shift(), next);
+    };
+    next();
+}
