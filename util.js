@@ -11,19 +11,19 @@ function getQueryString(name) {
 }
 
 /**
- * 添加cookie
+ * 设置cookie
  *
  * @param {String} name
  * @param {String} value
  * @param {Number} expireHours
  */
-function addcookie(name, value, expireHours) {
+function setCookie(name, value, expireHours) {
     var cookieString = name + "=" + escape(value) + "; path=/";
     // 判断是否设置过期时间
     if (expireHours > 0) {
         var date = new Date();
-        date.setTime(date.getTime + expireHours * 3600 * 1000);
-        cookieString = cookieString + "; expire=" + date.toGMTString();
+        date.setTime(date.getTime() + expireHours * 3600 * 1000);
+        cookieString = cookieString + "; expires=" + date.toGMTString();
     }
     document.cookie = cookieString;
 }
@@ -34,12 +34,12 @@ function addcookie(name, value, expireHours) {
  * @param {String} name
  * @return {String} 
  */
-function getcookie(name) {
+function getCookie(name) {
     var strcookie = document.cookie;
     var arrcookie = strcookie.split("; ");
     for (var i = 0; i < arrcookie.length; i++) {
         var arr = arrcookie[i].split("=");
-        if (arr[0] == name) return arr[1];
+        if (arr[0] == name) return unescape(arr[1]);
     }
     return "";
 }
@@ -52,7 +52,7 @@ function getcookie(name) {
 function delCookie(name) {
     var exp = new Date();
     exp.setTime(exp.getTime() - 1);
-    var cval = getcookie(name);
+    var cval = getCookie(name);
     if (cval != null) document.cookie = name + "=" + cval + "; path=/;expires=" + exp.toGMTString();
 }
 
