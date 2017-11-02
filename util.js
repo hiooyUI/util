@@ -177,6 +177,50 @@ function preLoadImages(urls) {// 可以是String Array或者String
 }
 
 /**
+ * 预加载图片，带回调，返回进度回调只对多图片有效
+ * By Nelson Kuang, 2017/11/02
+ * 
+ * @param {String|Array} urls
+ * @param {Function} onFinishCallback
+ * @param {Function} onProgressCallback，带进度返回onProgressCallback(progress)
+ */
+function preLoadImagesWithCB(urls, onFinishCallback, onProgressCallback) {// urls可以是String Array或者String，后面两个是回调函数
+    var loadImage = function (url, cb) {
+            var img = new Image();
+            img.src = url;
+            if (img.complete) { // 如果图片已经存在于浏览器缓存，直接调用回调函数     
+                cb(img);
+                return; // 直接返回，不用再处理onload事件     
+            }
+            img.onload = function () { //图片下载完毕时异步调用callback函数。         
+                img.onload = null;
+                cb(img);
+                return
+            };
+            img.onerror = function () {
+                img.onerror = null;
+                cb(img);
+            };
+        };
+    if (typeof urls == "string" && urls.length > 1) {// 预加载一个图片
+        loadImage(urls, function () {
+            onFinishCallback && onFinishCallback();
+        });
+    }
+    else if (Object.prototype.toString.call(arguments[0]) == "[object Array]" && urls.length > 0) {// 预加载多个图片
+        var length = urls.length,
+            completedImgCount = 0;
+        for (var i = 0; i < length; i++) {
+            loadImage(urls[i], function () {
+                completedImgCount++;
+                onProgressCallback && onProgressCallback(completedImgCount / length);
+                completedImgCount == length && onFinishCallback && onFinishCallback();
+            });
+        }
+    }
+}
+
+/**
  * input输入框特殊字符过滤
  * @param {HTMLInputElement} input
  */
