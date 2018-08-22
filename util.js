@@ -468,3 +468,15 @@ var throttle = function (fn,delay, immediate, debounce) {
 var debounce = function (fn, delay, immediate) {
    return throttle(fn, delay, immediate, true);
 };
+
+// Throttle简化版
+var simpleThrottle = function (fn, delay) {
+    if (window.throttleTimer) {
+        window.clearTimeout(window.throttleTimer);
+        window.throttleTimer = null;
+    }
+    return window.throttleTimer = window.setTimeout(function () {
+        fn();
+        window.throttleTimer = null;
+    }, delay);
+}
