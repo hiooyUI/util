@@ -469,7 +469,7 @@ var debounce = function (fn, delay, immediate) {
    return throttle(fn, delay, immediate, true);
 };
 
-// Throttle简化版
+// Throttle简化版,dom下使用
 var simpleThrottle = function (fn, delay) {
     if (window.throttleTimer) {
         window.clearTimeout(window.throttleTimer);
@@ -478,5 +478,6 @@ var simpleThrottle = function (fn, delay) {
     return window.throttleTimer = window.setTimeout(function () {
         fn();
         window.throttleTimer = null;
+        delete window.throttleTimer;
     }, delay);
 }
