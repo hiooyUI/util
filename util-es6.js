@@ -11,3 +11,14 @@ export const randomMobile = function (withMask) {
   const startCode = String(startCodeArr[Math.floor((startCodeArr.length - 1) * Math.random())])
   return startCode + areaCode + userCode
 }
+/**
+ * 过滤特殊字符、emoji符号及空格
+ *
+ * @param {String} str
+ * @return {String}
+ */
+export const specialCharsFilter = function ( str ) {
+  const emojiReg = /[^\u0020-\u007E\u00A0-\u00BE\u2E80-\uA4CF\uF900-\uFAFF\uFE30-\uFE4F\uFF00-\uFFEF\u0080-\u009F\u2000-\u201f\u2026\u2022\u20ac\r\n]/g
+  const punctuationReg = new RegExp("[%--`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——| {}【】‘’\"；：”“'。，、？]", 'g')
+  return str.replace(/\s+/g, '').replace(emojiReg, '').replace(punctuationReg, '') // 过滤空格、符号及emoji
+}
