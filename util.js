@@ -495,3 +495,34 @@ function deepClone(obj) {
     return obj //no need to clone primitives
   }
 }
+
+/*
+* 格式化时间
+* @param value {object Date | String}  日期
+* @param format   {String}    格式
+* @return {String} 结果
+*/
+function formatTime (value, format) {
+  if (typeof value == 'string') {
+    value = value.replace(/-/g, '/');
+  }
+  var t = new Date(value);
+  var o = {
+    'M+': t.getMonth() + 1, // month
+    'd+': t.getDate(), // day
+    'h+': t.getHours(), // hour
+    'm+': t.getMinutes(), // minute
+    's+': t.getSeconds(), // second
+    'q+': Math.floor((t.getMonth() + 3) / 3), // quarter
+    'S': t.getMilliseconds() // millisecond
+  };
+  if (/(y+)/.test(format)) {
+    format = format.replace(RegExp.$1, (t.getFullYear() + '').substr(4 - RegExp.$1.length));
+  }
+  for (var k in o) {
+    if (new RegExp('(' + k + ')').test(format)) {
+      format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length));
+    }
+  }
+  return format;
+}
