@@ -5,7 +5,7 @@
  * @return {String} 
  */
 function getQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$|#)"); // 增加对后带hash值路由的取值支持
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]); return null;
 }
