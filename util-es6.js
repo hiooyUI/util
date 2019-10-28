@@ -22,3 +22,17 @@ export const specialCharsFilter = function ( str ) {
   const punctuationReg = new RegExp("[%--`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——| {}【】‘’\"；：”“'。，、？]", 'g')
   return str.replace(/\s+/g, '').replace(emojiReg, '').replace(punctuationReg, '') // 过滤空格、符号及emoji
 }
+
+/**
+ * 深度比较
+ * @param  {Array | Object | String | Number} a
+ * @param  {Array | Object | String | Number} b
+ * @returns {Boolean}
+ */
+export const deepEq = (a, b) => {
+  if (a === b) return a !== 0 || 1 / a === 1 / b
+  if (a == null || b == null) return a === b
+  const type = typeof a
+  if (type !== 'function' && type !== 'object' && typeof b != 'object') return false
+  return JSON.stringify(a) === JSON.stringify(b)
+}
