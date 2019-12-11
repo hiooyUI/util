@@ -99,3 +99,101 @@ export function preLoadImage (url, callback, needCrossOrigin) { // fixed Chrome 
     callback && callback.call(img) // 将回调函数的 this 替换为 Image 对象  
   }
 }
+
+/**
+ * 格式化手机号码
+ *
+ * @param {Number|String} number
+ * @param {String} spliter
+ * @param {Boolean} withMask
+ * @return {String}
+ */
+export function formatMobile (number, spliter, withMask) { // 138-0288-8888
+  let arr = String(number).split('')
+  arr.splice(3, 0, spliter || '-')
+  if (withMask) {
+    arr.splice(4, 4, '*', '*', '*', '*')
+  }
+  arr.splice(8, 0, spliter || '-')
+  if (withMask) {
+    return arr.join('').replace(/\s/g, '')
+  } else {
+    return arr.join('')
+  }
+}
+
+export function isMobileNumber (val) {
+  if (!val) {
+    return false
+  }
+  if (!(/^1[3|4|5|6|7|8|9][0-9]\d{8}$/.test(val))) {
+    return false
+  } else {
+    return true
+  }
+}
+
+//　校验是否为固话
+export function isHomePhone (val) {
+  if (!(/^(0\d{2,3})(\d{7,8})$/.test(val))) {
+    return false
+  } else {
+    return true
+  }
+}
+
+/**
+ * 获取 url 传值
+ *
+ * @param {String} name
+ * @return {String}
+ */
+getQueryString (name) {
+  const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$|#)')
+  const r = window.location.search.substr(1).match(reg)
+  if (r != null) return unescape(r[2])
+  return null
+}
+
+/**
+ * 格式化时间
+ *
+ * @param {String|Date} time
+ * @param {String} cFormat
+ * @return {String}
+ */
+export function parseTime (time, cFormat) {
+  if (arguments.length === 0 || !time) {
+    return null
+  }
+
+  if ((time + '').length === 10) {
+    time = Number(time) * 1000
+  }
+
+  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
+  let date
+  if (typeof time === 'object') {
+    date = time
+  } else {
+    date = new Date(parseInt(time, 10))
+  }
+  const formatObj = {
+    y: date.getFullYear(),
+    m: date.getMonth() + 1,
+    d: date.getDate(),
+    h: date.getHours(),
+    i: date.getMinutes(),
+    s: date.getSeconds(),
+    a: date.getDay()
+  }
+  const timeStr = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+    let value = formatObj[key]
+    if (key === 'a') return ['一', '二', '三', '四', '五', '六', '日'][value - 1]
+    if (result.length > 0 && value < 10) {
+      value = '0' + value
+    }
+    return value || 0
+  })
+  return timeStr
+}
