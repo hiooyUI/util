@@ -567,5 +567,5 @@ function cnInStrToUnicode(str) {
 * @return {String} 结果
 */
 function cnInStrDecodeUnicode(str) {
-  return unescape(str.replace(/\\/g, "%")).replace(/%/g, "\\").replace(/\\/g, "");
+  return unescape(str.replace(/\\/g, "%")).replace(/%/g, "\\");
 }
