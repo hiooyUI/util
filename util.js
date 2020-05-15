@@ -551,7 +551,7 @@ function decodeUnicode(str) {
 }
 
 /*
-* 把字符串中的中文转为 unicode 编码，解码用上面的 decodeUnicode
+* 把字符串中的中文转为 unicode 编码
 * @param str {String} 日期
 * @return {String} 结果
 */
@@ -559,4 +559,13 @@ function cnInStrToUnicode(str) {
   return str.replace(/([\u4E00-\u9FA5]|[\uFE30-\uFFA0])/g, function(newStr) {
      return '\\u' + newStr.charCodeAt(0).toString(16); 
   }); 
+}
+
+/*
+* 把字符串中的 unicode 编码解码为中文
+* @param str {String} 日期
+* @return {String} 结果
+*/
+function cnInStrDecodeUnicode(str) {
+  return unescape(str.replace(/\\/g, "%")).replace(/%/g, "\\").replace(/\\/g, "");
 }
