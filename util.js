@@ -591,3 +591,15 @@ function cnInStrToUnicode(str) {
 function cnInStrDecodeUnicode(str) {
   return unescape(str.replace(/\\/g, "%")).replace(/%/g, "\\");
 }
+
+/**
+ * 连接符转驼峰
+ *
+ * @param {String} name
+ * @return {String} 
+ */
+function hyphensToCamelcase(sName) {
+  return sName.replace(/^[_-]{1}/, '').replace(/[_-]{1}([a-zA-Z]{1})([a-zA-Z]*)/g, function (a, b, c) {
+    return b.toUpperCase() + c.toLowerCase()
+  })
+}
