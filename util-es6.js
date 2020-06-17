@@ -148,7 +148,7 @@ export function isHomePhone (val) {
  * @param {String} name
  * @return {String}
  */
-getQueryString (name) {
+export function getQueryString (name) {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$|#)')
   const r = window.location.search.substr(1).match(reg)
   if (r != null) return unescape(r[2])
@@ -196,4 +196,26 @@ export function parseTime (time, cFormat) {
     return value || 0
   })
   return timeStr
+}
+
+/**
+ * 获取 Dom 元素相对于 html / body 的 offSet
+ *
+ * @param {HTMLDivElement} el
+ * @return {Object} offset { left, top }
+ */
+export function getDomOffset (el) {
+  return getOffset(el)
+  function getOffset (e) {
+    let offset = {
+      top: e.offsetTop,
+      left: e.offsetLeft
+    }
+    if (e.offsetParent) {
+      const pOffset = getOffset(e.offsetParent)
+      offset.top += pOffset.top
+      offset.left += pOffset.left
+    }
+    return offset
+  }
 }
