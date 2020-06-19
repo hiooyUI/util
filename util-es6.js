@@ -205,17 +205,9 @@ export function parseTime (time, cFormat) {
  * @return {Object} offset { left, top }
  */
 export function getDomOffset (el) {
-  return getOffset(el)
-  function getOffset (e) {
-    let offset = {
-      top: e.offsetTop,
-      left: e.offsetLeft
-    }
-    if (e.offsetParent) {
-      const pOffset = getOffset(e.offsetParent)
-      offset.top += pOffset.top
-      offset.left += pOffset.left
-    }
-    return offset
-  }
+  const box = el.getBoundingClientRect();
+  return {
+    top: box.top + window.pageYOffset - document.documentElement.clientTop,
+    left: box.left + window.pageXOffset - document.documentElement.clientLeft
+  };
 }
