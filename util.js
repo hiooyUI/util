@@ -422,38 +422,38 @@ function syncLoadScripts(srcs) {
 * @param immediate  {bool} 给 immediate参数传递false 绑定的函数先执行，而不是delay后后执行。
 * @return {function}实际调用函数
 */
-var throttle = function (fn,delay, immediate, debounce) {
-   var curr = +new Date(),//当前事件
-       last_call = 0,
-       last_exec = 0,
+var throttle = function (fn, delay, immediate, debounce) {
+   var currentCalledTime = +new Date(), // 当前事件被调用的时间
+       lastCalledTime = 0,
+       lastExecutedTime = 0,
        timer = null,
-       diff, //时间差
-       context,//上下文
+       diff, // 时间差
+       context, // 上下文
        args,
-       exec = function () {
-           last_exec = curr;
+       execFn = function () {
+           lastExecutedTime = currentCalledTime;
            fn.apply(context, args);
        };
    return function () {
-       curr= +new Date();
+       currentCalledTime = +new Date();
        context = this,
        args = arguments,
-       diff = curr - (debounce ? last_call : last_exec) - delay;
+       diff = currentCalledTime - (debounce ? lastCalledTime : lastExecutedTime) - delay;
        clearTimeout(timer);
        if (debounce) {
            if (immediate) {
-               timer = setTimeout(exec, delay);
-           } else if (diff >= 0) {
-               exec();
+               timer = setTimeout(execFn, delay);
+           } else if (diff >= 0) { // 经过的时间间隔比 delay 大
+               execFn();
            }
        } else {
-           if (diff >= 0) {
-               exec();
+           if (diff >= 0) { // 经过的时间间隔比 delay 大
+               execFn();
            } else if (immediate) {
-               timer = setTimeout(exec, -diff);
+               timer = setTimeout(execFn, -diff);
            }
        }
-       last_call = curr;
+       lastCalledTime = currentCalledTime;
    }
 };
  
