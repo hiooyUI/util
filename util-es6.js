@@ -211,3 +211,13 @@ export function getDomOffset (el) {
     left: box.left + window.pageXOffset - document.documentElement.clientLeft
   };
 }
+
+// 防抖动处理
+function debounce(callback, interval) {
+  let debounceTimeoutId;
+
+  return (...args) => {
+    clearTimeout(debounceTimeoutId);
+    debounceTimeoutId = setTimeout(() => callback(...args), interval);
+  };
+}
